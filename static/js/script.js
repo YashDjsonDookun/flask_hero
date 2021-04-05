@@ -11,7 +11,7 @@ $(function(){
 			success: function(response){
                 $('#name').val("");
                 $('#names').prop('selectedIndex',0);
-				console.log(response);
+				// console.log(response);
                 $("#app").load(location.href + " #app");
 			},
 			error: function(error){

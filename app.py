@@ -27,11 +27,11 @@ def getData():
         response = requests.get(BASE_URL+"/search/" + super_hero_dropdown)
     else:
         response = requests.get(BASE_URL+"/search/" + super_hero)
-    print(response)
+    # print(response)
     data = response.json()
     temp = []
     temp.append(data)
-    print(data)
+    # print(data)
     globals()['dataFetched'] = temp[0]["results"];
     return data
 
