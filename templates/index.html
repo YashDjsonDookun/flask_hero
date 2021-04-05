@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Super Hero App Flask</title>
+        <link rel="stylesheet" href="static/css/styles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="static/js/script.js"></script>
+        <!-- UIkit CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/css/uikit.min.css" />
+        <!-- UIkit JS -->
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.18/dist/js/uikit-icons.min.js"></script>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="uk-card uk-card-default">
+                <div class="uk-card-body">
+                    <h3 class="uk-card-title">Find Details about your Superhero!</h3>
+                    <p>Either type manually or choose from the dropdown menu</p>
+
+                    <form action="">
+                        <label for="name">Super Hero Name:</label>
+                        <input class="uk-form-small" type="text" name="name" id="name" placeholder="e.g Batman">
+                        <div class="uk-margin">
+                            <div uk-form-custom="target: > * > span:first-child">
+                                <select name="names" id="names"></select>
+                                <button class="uk-button uk-button-default" type="button" tabindex="-1">
+                                    <span></span>
+                                    <span uk-icon="icon: chevron-down"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            let dropdown = $("#names");
+                            dropdown.empty();
+                            dropdown.append('<option selected="true" disabled>Choose Hero from dropdown</option>');
+
+                            $.getJSON("/names", function (data) {
+                              $.each(data, function (key, entry) {
+                                dropdown.append($('<option></option>').attr('value', entry).text(entry));
+                              })
+                            });
+                        </script>
+                        <button class="uk-button uk-button-primary uk-button-large" id="btn-getData">Fetch Data</button>
+                    </form>
+                    <div id="app">
+                        {%for i in range(0, len)%}
+                            <div class="uk-card-media-bottom uk-padding">
+                                {% if "image" in dataFetched[i] %}
+                                    <img src= {{ dataFetched[i]['image']['url'] }} width="300px" height="" alt="400px" uk-img>
+                                    <div class="content">
+                                        <!-- Biography -->
+                                        <dl class="uk-description-list uk-description-list-divider">
+                                            <strong><u><h2 class="title">Biography:</h2></u></strong>
+                                            <dt><strong>Name:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['name'] }}</span></dd>
+                                            <dt><strong>Full Name:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['biography']['full-name'] }}</span></dd>
+                                            <dt><strong>Alter Egos:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['biography']['alter-egos'] }}</span></dd>
+                                            <dt><strong>Aliases:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['biography']['aliases'] }}</span></dd>
+                                            <dt><strong>Place Of Birth:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['biography']['place-of-birth'] }}</span></dd>
+                                            <dt><strong>First Appearance:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['biography']['first-appearance'] }}</span></dd>
+                                            <dt><strong>Publisher:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['biography']['publisher'] }}</span></dd>
+                                            <dt><strong>Alignment:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['biography']['alignment'] }}</span></dd>
+                                        </dl>
+                                        <!-- Power Stats -->
+                                        <dl class="uk-description-list uk-description-list-divider">
+                                            <strong><u><h2 class="title">Power Stats:</h2></u></strong>
+                                            <dt><strong>Intelligence:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['powerstats']['intelligence'] }}</span></dd>
+                                            <dt><strong>Strength:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['powerstats']['strength'] }}</span></dd>
+                                            <dt><strong>Speed:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['powerstats']['speed'] }}</span></dd>
+                                            <dt><strong>Durability:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['powerstats']['durability'] }}</span></dd>
+                                            <dt><strong>Power:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['powerstats']['power'] }}</span></dd>
+                                            <dt><strong>Combat:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['powerstats']['combat'] }}</span></dd>
+                                        </dl>
+                                        <!-- Appearance -->
+                                        <dl class="uk-description-list uk-description-list-divider">
+                                            <strong><u><h2 class="title">Appearance:</h2></u></strong>
+                                            <dt><strong>Gender:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['appearance']['gender'] }}</span></dd>
+                                            <dt><strong>Race:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['appearance']['race'] }}</span></dd>
+                                            <dt><strong>Height:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['appearance']['height'] }}</span></dd>
+                                            <dt><strong>Weight:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['appearance']['weight'] }}</span></dd>
+                                            <dt><strong>Eye-Color:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['appearance']['eye-color'] }}</span></dd>
+                                            <dt><strong>Hair-Color:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['appearance']['hair-color'] }}</span></dd>
+                                        </dl>
+                                        <!-- Work -->
+                                        <dl class="uk-description-list uk-description-list-divider">
+                                            <strong><u><h2 class="title">Work:</h2></u></u></strong>
+                                            <dt><strong>Occupation:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['work']['occupation'] }}</span></dd>
+                                            <dt><strong>Base:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['work']['base'] }}</span></dd>
+                                        </dl>
+                                        <!-- Connections -->
+                                        <dl class="uk-description-list uk-description-list-divider">
+                                            <strong><u><h2 class="title">Connections:</h2></u></strong>
+                                            <dt><strong>Group Affiliations:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['connections']['group-affiliation'] }}</span></dd>
+                                            <dt><strong>Relatives:  </strong></dt>
+                                            <dd><span class=" data uk-text-lighter"> {{ dataFetched[i]['connections']['relatives'] }}</span></dd>
+                                        </dl>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </body>
+</html>
